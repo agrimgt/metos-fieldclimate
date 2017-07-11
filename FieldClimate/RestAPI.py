@@ -8,6 +8,8 @@ __email__ = "buiro@satagro.pl"
 
 import json
 import ssl
+import sys
+import warnings
 from datetime import datetime
 
 try:
@@ -18,6 +20,10 @@ except ImportError:
     # Python 3:
     from urllib.parse import urlencode
     from urllib.request import urlopen
+
+
+def ssl_version_check(version):
+    return version >= (3, 4, 3) or (3, 0) > version >= (2, 7, 9)
 
 
 class RestAPI(object):
@@ -34,7 +40,11 @@ class RestAPI(object):
         params = urlencode(params).encode('ascii')
         # Read url and parse from json
         # Note: The context argument was added in Python 2.7.9 and 3.4.3
-        return json.loads(urlopen(url, params, context=self.context).read())
+        if ssl_version_check(sys.version_info):
+            kwargs = {'context': self.context}
+        else:
+            kwargs = {}
+        return json.loads(urlopen(url, params, **kwargs).read())
 
 
 class FieldClimateRestAPI(RestAPI):
@@ -48,6 +58,9 @@ class FieldClimateRestAPI(RestAPI):
             # This workaround disables cert verification, but keeps TLS encryption.
             url = 'https://www.fieldclimate.com/api/'
             self.context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+            # This might not work on older python versions, but don't raise an exception just in case it does.
+            if not ssl_version_check(sys.version_info):
+                raise warnings.warn('The FieldClimate API via HTTPS may not work on Python versions < 2.7.9, 3.4.3.')
         else:
             url = 'http://www.fieldclimate.com/api/'
         super(FieldClimateRestAPI, self).__init__(url, debug)
