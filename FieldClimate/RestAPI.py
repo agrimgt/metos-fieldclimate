@@ -47,7 +47,7 @@ class FieldClimateRestAPI(RestAPI):
             # Warning: Fieldclimate's certificate doesn't seem to validate.
             # This workaround disables cert verification, but keeps TLS encryption.
             url = 'https://www.fieldclimate.com/api/'
-            self.gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+            self.context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
         else:
             url = 'http://www.fieldclimate.com/api/'
         super(FieldClimateRestAPI, self).__init__(url, debug)
