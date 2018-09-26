@@ -5,7 +5,6 @@ __license__ = "LGPL"
 __email__ = "buiro@satagro.pl"
 
 import json
-import ssl
 from datetime import datetime
 from urllib.parse import urlencode
 from urllib.request import urlopen
@@ -14,7 +13,6 @@ from urllib.request import urlopen
 class RestAPI(object):
     API_URL = None
     DEBUG = False
-    context = None
 
     def __init__(self, url, debug=False):
         self.API_URL = url
@@ -24,8 +22,7 @@ class RestAPI(object):
         url = self.API_URL + method
         params = urlencode(params).encode('ascii')
         # Read url and parse from json
-        # Note: The context argument was added in Python 2.7.9 and 3.4.3
-        request = urlopen(url, params, context=self.context).read().decode('utf8')
+        request = urlopen(url, params).read().decode('utf8')
         return json.loads(request)
 
 
@@ -34,14 +31,8 @@ class FieldClimateRestAPI(RestAPI):
     PASS = None
     CHUNK_SIZE = 100
 
-    def __init__(self, user, passwd, https=False, debug=False):
-        if https:
-            # Warning: Fieldclimate's certificate doesn't seem to validate.
-            # This workaround disables cert verification, but keeps TLS encryption.
-            url = 'https://www.fieldclimate.com/api/'
-            self.gcontext = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-        else:
-            url = 'http://www.fieldclimate.com/api/'
+    def __init__(self, user, passwd, debug=False):
+        url = 'https://fieldclimate.com/api/'
         super(FieldClimateRestAPI, self).__init__(url, debug)
         self.USER = user
         self.PASS = passwd
