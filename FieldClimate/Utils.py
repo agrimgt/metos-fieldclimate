@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 __author__ = "Krzysztof Stopa"
 __copyright__ = "Copyright 2015 SatAgro"
 __credits__ = ["Krzysztof Stopa", "Przemyslaw Zelazowski", "Phillip Marshall"]
@@ -7,9 +5,11 @@ __license__ = "LGPL"
 __email__ = "buiro@satagro.pl"
 
 import sys
+
 from datetime import datetime, timedelta
-from FieldClimate.Data import Station, SensorMode
-from Api import FieldClimateRestAPI
+
+from FieldClimate.Api import FieldClimateRestAPI
+from FieldClimate.Data import SensorMode, Station
 
 
 def get_station_data_date(user, password, station_name, date=datetime.now()):

@@ -1,5 +1,3 @@
-from __future__ import print_function
-
 __author__ = "Krzysztof Stopa"
 __copyright__ = "Copyright 2015 SatAgro"
 __credits__ = ["Krzysztof Stopa", "Przemyslaw Zelazowski", "Phillip Marshall"]
@@ -9,15 +7,8 @@ __email__ = "buiro@satagro.pl"
 import json
 import ssl
 from datetime import datetime
-
-try:
-    # Python 2:
-    from urllib import urlencode
-    from urllib2 import urlopen
-except ImportError:
-    # Python 3:
-    from urllib.parse import urlencode
-    from urllib.request import urlopen
+from urllib.parse import urlencode
+from urllib.request import urlopen
 
 
 class RestAPI(object):

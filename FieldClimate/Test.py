@@ -1,8 +1,9 @@
-import unittest
 import os
-import datetime
+import unittest
+
 from FieldClimate.Api import FieldClimateRestAPI
 from FieldClimate.Data import Station
+
 
 class MetosTest(unittest.TestCase):
 
