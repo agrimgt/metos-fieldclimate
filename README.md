@@ -13,7 +13,7 @@ By now, the repository is not available at pip but still, you can easily install
 
 ## Requirements
 
-Python 2.7.9+ and 3.4.3+ should be compatible. Python 2 users need to install `enum34` from pypi.
+Python versions 3.5 and higher are supported.
 
 ## Usage
 
